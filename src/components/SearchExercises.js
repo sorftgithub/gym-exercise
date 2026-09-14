@@ -13,7 +13,6 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
         "https://exercisedb.p.rapidapi.com/exercises/bodyPartList",
         exerciseOptions,
       );
-      console.log("Body Parts Data:", bodyPartsData);
       setBodyParts(["all", ...bodyPartsData]);
     };
     fetchExercisesData();
@@ -26,19 +25,31 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
         exerciseOptions,
       );
 
-      const searchedExercises = exerciseData.filter(
-        (exercise) =>
-          exercise.name.toLowerCase().includes(Search) ||
-          exercise.target.toLowerCase().includes(Search) ||
-          exercise.equipment.toLowerCase().includes(Search) ||
-          exercise.bodyPart.toLowerCase().includes(Search),
-      );
+      if (Array.isArray(exerciseData)) {
+        const searchedExercises = exerciseData.filter(
+          (exercise) =>
+            exercise.name.toLowerCase().includes(Search) ||
+            exercise.target.toLowerCase().includes(Search) ||
+            exercise.equipment.toLowerCase().includes(Search) ||
+            exercise.bodyPart.toLowerCase().includes(Search),
+        );
 
-      console.log("Search Results:", searchedExercises);
-      setSearch("");
-      setExercises(searchedExercises);
+        if (searchedExercises.length === 0) {
+          alert(
+            "This specific exercise isn't available on the free plan!Explore the body parts categories below to see live exercises!",
+          );
+        } else {
+          setSearch("");
+          setExercises(searchedExercises);
+        }
+      } else {
+        alert(
+          "Failed to fetch data from API. Please check you API key or connection",
+        );
+      }
     }
   };
+
   return (
     <Stack alignItems="center" mt="37px" justifyContent="center" p="20px">
       <Typography
@@ -52,7 +63,6 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
         Awesome Exercises You <br />
         Should Know
       </Typography>
-      {/* <p>{JSON.stringify(exercises)}</p> */}
       <Box position="relative" mb="72px">
         <TextField
           sx={{
@@ -104,6 +114,7 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
           data={bodyParts}
           bodyPart={bodyPart}
           setBodyPart={setBodyPart}
+          isBodyParts
         />
       </Box>
     </Stack>
