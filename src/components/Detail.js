@@ -7,7 +7,7 @@ import TargetImage from "../assets/icons/target.png";
 import EquipmentImage from "../assets/icons/equipment.png";
 
 const Detail = ({ exerciseDetail }) => {
-  const { bodyPart, gifUrl, name, target, equipment, id } = exerciseDetail;
+  const { bodyPart, name, target, equipment, id } = exerciseDetail;
 
   const extraDetail = [
     {
@@ -30,7 +30,6 @@ const Detail = ({ exerciseDetail }) => {
       sx={{ flexDirection: { lg: "row" }, p: "20px", alignItems: "center" }}
     >
       <img
-        //  src={gifUrl} Cant use gifUrl because the endpoint is now different
         src={exerciseImageUrl(id, "360")}
         alt={name}
         loading="lazy"
